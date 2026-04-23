@@ -1,0 +1,46 @@
+
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+  <meta charset="UTF-8" />
+  <title>點餐統計系統</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<h1>點餐系統</h1>
+
+<form id="orderForm">
+  <input type="text" id="name" placeholder="姓名" required />
+
+  <select id="item"></select>
+
+  <select id="sugar">
+    <option>全糖</option>
+    <option>半糖</option>
+    <option>微糖</option>
+    <option>無糖</option>
+  </select>
+
+  <select id="ice">
+    <option>正常冰</option>
+    <option>少冰</option>
+    <option>去冰</option>
+  </select>
+
+  <input type="number" id="qty" value="1" min="1" />
+
+  <button type="submit">加入訂單</button>
+</form>
+
+<hr>
+
+<h2>訂單列表</h2>
+<ul id="orderList"></ul>
+
+<h2>統計結果</h2>
+<div id="summary"></div>
+
+<script src="script.js"></script>
+</body>
+</html>
