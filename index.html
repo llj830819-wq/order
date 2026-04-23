@@ -7,7 +7,6 @@
 
   <!-- ===============================
        飛炫霓虹科技風 + 菜單圖片樣式
-       （已整合、不再被蓋掉）
   ================================ -->
   <style>
     * {
@@ -30,9 +29,7 @@
       font-size: 2.8rem;
       letter-spacing: 3px;
       color: #00fff0;
-      text-shadow:
-        0 0 10px #00fff0,
-        0 0 20px #00c8ff;
+      text-shadow: 0 0 10px #00fff0, 0 0 20px #00c8ff;
     }
 
     h2 {
@@ -41,7 +38,7 @@
       text-shadow: 0 0 10px #ff5cf4;
     }
 
-    /* ===== 菜單圖片 ===== */
+    /* 菜單圖片 */
     #menuImage {
       width: 90%;
       max-width: 500px;
@@ -56,16 +53,14 @@
       display: block;
     }
 
-    /* ===== 表單卡片 ===== */
+    /* 表單 */
     form {
       width: 90%;
       max-width: 500px;
       background: rgba(0, 0, 0, 0.6);
       border-radius: 20px;
       padding: 25px;
-      box-shadow:
-        0 0 20px rgba(0, 255, 240, 0.3),
-        inset 0 0 15px rgba(0, 255, 240, 0.1);
+      box-shadow: 0 0 20px rgba(0, 255, 240, 0.3);
       display: grid;
       gap: 12px;
     }
@@ -77,23 +72,12 @@
       background: rgba(15, 32, 39, 0.8);
       color: #ffffff;
       font-size: 1rem;
-      outline: none;
     }
 
     textarea {
       resize: none;
     }
 
-    input::placeholder, textarea::placeholder {
-      color: #aaa;
-    }
-
-    input:focus, select:focus, textarea:focus {
-      border-color: #00fff0;
-      box-shadow: 0 0 10px #00fff0;
-    }
-
-    /* ===== 按鈕 ===== */
     button {
       margin-top: 10px;
       padding: 14px;
@@ -105,7 +89,6 @@
       color: #000;
       background: linear-gradient(90deg, #00fff0, #00c8ff, #00fff0);
       background-size: 200%;
-      box-shadow: 0 0 15px #00fff0;
       animation: gradientMove 2s linear infinite;
     }
 
@@ -114,7 +97,6 @@
       to   { background-position: 200%; }
     }
 
-    /* ===== 訂單列表 ===== */
     #orderList {
       width: 90%;
       max-width: 500px;
@@ -131,12 +113,8 @@
         rgba(255, 92, 244, 0.2),
         rgba(0, 255, 240, 0.2)
       );
-      box-shadow:
-        0 0 10px rgba(255, 92, 244, 0.5),
-        0 0 15px rgba(0, 255, 240, 0.5);
     }
 
-    /* ===== 統計 ===== */
     #summary {
       width: 90%;
       max-width: 500px;
@@ -145,27 +123,31 @@
       border-radius: 20px;
       background: rgba(0, 0, 0, 0.5);
     }
+
+    /* QR Code 圖片（只加樣式，不影響功能） */
+    .qr {
+      width: 200px;
+      margin-bottom: 20px;
+      box-shadow: 0 0 15px rgba(0,255,240,.5);
+      border-radius: 12px;
+    }
   </style>
-  
-  <script 
-    src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js">
-  </script>
-  </head>
+
+  <!-- ✅ xlsx 套件 -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+</head>
 
 <body>
 
-<h2>掃描 QR Code 點餐</h2>
-<img
-  src="images/image2.jpg" alt="點餐 QR Code"
-/>
+  <h2>掃描 QR Code 點餐</h2>
+  <img src="images/image2.jpg" alt="點餐 QR Code" class="qr">
 
   <h2>菜單</h2>
-
-<div id="menuImage">
-  <a href="images/image.jpg" target="_blank">
-    <img src="images/image.jpg" alt="菜單圖片">
-  </a>
-</div>
+  <div id="menuImage">
+    <a href="images/image.jpg" target="_blank">
+      <img src="images/image.jpg" alt="菜單圖片">
+    </a>
+  </div>
 
   <h1>點餐系統</h1>
 
@@ -200,16 +182,15 @@
 
   <h2>訂單列表</h2>
   <ul id="orderList"></ul>
-  
-  <button 
-    id="exportExcel">匯出 Excel
-  </button>
-  
+
+  <button id="exportExcel">匯出 Excel</button>
+
   <h2>統計結果</h2>
   <div id="summary"></div>
 
-  <!-- JS -->
+  <!-- ✅ JS 放在最後，確保 DOM 已存在 -->
   <script src="script.js"></script>
 
 </body>
 </html>
+``
