@@ -65,8 +65,8 @@ function renderOrders() {
         ${o.note ? `<br><small>備註：${o.note}</small>` : ''}
       </div>
       <div>
-        <button onclick="edit(${i})">編</button>
-        <button onclick="del(${i})">×</button>
+        <button onclick="edit(${i})">編輯訂單</button>
+        <button onclick="del(${i})">刪除</button>
       </div>
     `
     ul.appendChild(li)
