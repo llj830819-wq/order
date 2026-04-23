@@ -4,74 +4,196 @@
 <head>
   <meta charset="UTF-8" />
   <title>點餐統計系統</title>
-  
-<style>
-  #menuImage {
-    width: 90%;
-    max-width: 500px;
-    margin-bottom: 20px;
-    border-radius: 20px;
-    overflow: hidden;
-    box-shadow: 0 0 20px rgba(0, 255, 240, 0.4);
-  }
 
-  #menuImage img {
-    width: 100%;
-    display: block;
-  }
-</style>
-<link rel="stylesheet" href="style.css">
+  <!-- ===============================
+       飛炫霓虹科技風 + 菜單圖片樣式
+       （已整合、不再被蓋掉）
+  ================================ -->
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Segoe UI', 'Noto Sans TC', sans-serif;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+      color: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin-top: 20px;
+      font-size: 2.8rem;
+      letter-spacing: 3px;
+      color: #00fff0;
+      text-shadow:
+        0 0 10px #00fff0,
+        0 0 20px #00c8ff;
+    }
+
+    h2 {
+      margin-top: 25px;
+      color: #ff5cf4;
+      text-shadow: 0 0 10px #ff5cf4;
+    }
+
+    /* ===== 菜單圖片 ===== */
+    #menuImage {
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 20px;
+      border-radius: 20px;
+      overflow: hidden;
+      box-shadow: 0 0 20px rgba(0, 255, 240, 0.4);
+    }
+
+    #menuImage img {
+      width: 100%;
+      display: block;
+    }
+
+    /* ===== 表單卡片 ===== */
+    form {
+      width: 90%;
+      max-width: 500px;
+      background: rgba(0, 0, 0, 0.6);
+      border-radius: 20px;
+      padding: 25px;
+      box-shadow:
+        0 0 20px rgba(0, 255, 240, 0.3),
+        inset 0 0 15px rgba(0, 255, 240, 0.1);
+      display: grid;
+      gap: 12px;
+    }
+
+    input, select, textarea {
+      padding: 12px 15px;
+      border-radius: 12px;
+      border: 1px solid rgba(0, 255, 240, 0.4);
+      background: rgba(15, 32, 39, 0.8);
+      color: #ffffff;
+      font-size: 1rem;
+      outline: none;
+    }
+
+    textarea {
+      resize: none;
+    }
+
+    input::placeholder, textarea::placeholder {
+      color: #aaa;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      border-color: #00fff0;
+      box-shadow: 0 0 10px #00fff0;
+    }
+
+    /* ===== 按鈕 ===== */
+    button {
+      margin-top: 10px;
+      padding: 14px;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      border: none;
+      border-radius: 30px;
+      cursor: pointer;
+      color: #000;
+      background: linear-gradient(90deg, #00fff0, #00c8ff, #00fff0);
+      background-size: 200%;
+      box-shadow: 0 0 15px #00fff0;
+      animation: gradientMove 2s linear infinite;
+    }
+
+    @keyframes gradientMove {
+      from { background-position: 0%; }
+      to   { background-position: 200%; }
+    }
+
+    /* ===== 訂單列表 ===== */
+    #orderList {
+      width: 90%;
+      max-width: 500px;
+      list-style: none;
+      padding: 0;
+    }
+
+    #orderList li {
+      margin: 8px 0;
+      padding: 12px 16px;
+      border-radius: 12px;
+      background: linear-gradient(
+        135deg,
+        rgba(255, 92, 244, 0.2),
+        rgba(0, 255, 240, 0.2)
+      );
+      box-shadow:
+        0 0 10px rgba(255, 92, 244, 0.5),
+        0 0 15px rgba(0, 255, 240, 0.5);
+    }
+
+    /* ===== 統計 ===== */
+    #summary {
+      width: 90%;
+      max-width: 500px;
+      margin-bottom: 40px;
+      padding: 20px;
+      border-radius: 20px;
+      background: rgba(0, 0, 0, 0.5);
+    }
+  </style>
 </head>
+
 <body>
 
-<h2>菜單</h2>
+  <h2>菜單</h2>
+  <div id="menuImage">
+    <img src="images/image.jpg" alt="菜單圖片">
+  </div>
 
-<div id="menuImage">
-  <img src="images/image.jpg">
-</div>
+  <h1>點餐系統</h1>
 
-<h1>點餐系統</h1>
+  <form id="orderForm">
+    <input type="text" id="name" placeholder="姓名" required>
 
-<form id="orderForm">
-  <input type="text" id="name" placeholder="姓名" required />
+    <select id="item"></select>
 
-  <select id="item"></select>
+    <select id="sugar">
+      <option>全糖</option>
+      <option>半糖</option>
+      <option>微糖</option>
+      <option>無糖</option>
+    </select>
 
-  <select id="sugar">
-    <option>全糖</option>
-    <option>半糖</option>
-    <option>微糖</option>
-    <option>無糖</option>
-  </select>
+    <select id="ice">
+      <option>正常冰</option>
+      <option>少冰</option>
+      <option>去冰</option>
+    </select>
 
-  <select id="ice">
-    <option>正常冰</option>
-    <option>少冰</option>
-    <option>去冰</option>
-  </select>
+    <input type="number" id="qty" value="1" min="1">
 
-  <input type="number" id="qty" value="1" min="1" />
+    <textarea
+      id="note"
+      placeholder="備註（例如：少珍珠、分開裝）"
+      rows="2"
+    ></textarea>
 
-  <textarea
-    id="note"
-    placeholder="備註（例如：少珍珠、分開裝）"
-    rows="2"
-  ></textarea>
+    <button type="submit">加入訂單</button>
+  </form>
 
-  <button type="submit">加入訂單</button>
-</form>
-
-<hr>
-
-<h2>訂單列表</h2>
-<ul id="orderList"></ul>
+  <h2>訂單列表</h2>
+  <ul id="orderList"></ul>
 
   <h2>統計結果</h2>
   <div id="summary"></div>
 
-  <!-- 載入 JS -->
+  <!-- JS -->
   <script src="script.js"></script>
 
 </body>
 </html>
-
