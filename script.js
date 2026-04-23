@@ -21,15 +21,22 @@ fetch('menu.json')
 document.getElementById('orderForm').addEventListener('submit', e => {
   e.preventDefault()
 
-  const name = document.getElementById('name').value
-  const item = document.getElementById('item').value
-  const sugar = document.getElementById('sugar').value
-  const ice = document.getElementById('ice').value
-  const qty = Number(document.getElementById('qty').value)
-  const note = document.getElementById('note').value
-  const price = menu.find(m => m.name === item).price
+  const order = {
+    name: name.value,
+    item: item.value,
+    sugar: sugar.value,
+    ice: ice.value,
+    qty: Number(qty.value),
+    note: note.value,
+    price: menu.find(m => m.name === item.value).price
+  }
 
-  orders.push({ name, item, sugar, ice, qty, price, note })
+  if (editingIndex !== null) {
+    orders[editingIndex] = order
+    editingIndex = null
+  } else {
+    orders.push(order)
+  }
 
   saveAndRender()
   e.target.reset()
@@ -42,7 +49,7 @@ function saveAndRender() {
   renderSummary()
 }
 
-/* ===== 訂單列表（含刪除） ===== */
+/* ===== 訂單列表（含刪除&編輯） ===== */
 function renderOrders() {
   const ul = document.getElementById('orderList')
   ul.innerHTML = ''
@@ -55,11 +62,13 @@ function renderOrders() {
         (${o.sugar}/${o.ice}) x${o.qty}
         ${o.note ? `<br><small>備註：${o.note}</small>` : ''}
       </div>
+      <button onclick="editOrder(${index})">編輯</button>
       <button onclick="deleteOrder(${index})">刪除</button>
     `
     ul.appendChild(li)
   })
 }
+
 
 /* ===== 刪除訂單 ===== */
 function deleteOrder(index) {
@@ -88,7 +97,7 @@ function renderSummary() {
   `
 }
 
-/* ===== Excel 匯出 ===== */
+/* ===== Excel 匯出 xlsx ===== */
 document.getElementById('exportExcel').addEventListener('click', () => {
   if (orders.length === 0) {
     alert('目前沒有訂單')
@@ -111,6 +120,22 @@ document.getElementById('exportExcel').addEventListener('click', () => {
 
   XLSX.writeFile(workbook, '點餐統計.xlsx')
 })
+
+/* ===== 編輯邏輯 ===== */
+let editingIndex = null
+
+function editOrder(index) {
+  const o = orders[index]
+  editingIndex = index
+
+  document.getElementById('name').value = o.name
+  document.getElementById('item').value = o.item
+  document.getElementById('sugar').value = o.sugar
+  document.getElementById('ice').value = o.ice
+  document.getElementById('qty').value = o.qty
+  document.getElementById('note').value = o.note
+}
+
 
 /* ===== 初次載入 ===== */
 saveAndRender()
