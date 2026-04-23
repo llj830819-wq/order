@@ -25,8 +25,10 @@ document.getElementById('orderForm').addEventListener('submit', e => {
   const ice = document.getElementById('ice').value
   const qty = Number(document.getElementById('qty').value)
   const price = menu.find(m => m.name === item).price
-
-  orders.push({ name, item, sugar, ice, qty, price })
+  const note = document.getElementById('note').value
+  
+  orders.push({ name, item, sugar, ice, qty, price, note })
+  ``
 
   renderOrders()
   renderSummary()
@@ -38,8 +40,10 @@ function renderOrders() {
 
   orders.forEach(o => {
     const li = document.createElement('li')
-    li.textContent =
-      `${o.name} - ${o.item} (${o.sugar} / ${o.ice}) x${o.qty}`
+
+li.textContent =
+  `${o.name} - ${o.item} (${o.sugar}/${o.ice}) x${o.qty}` +
+  (o.note ? `【備註：${o.note}】` : '')
     ul.appendChild(li)
   })
 }
