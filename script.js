@@ -95,18 +95,21 @@ document.getElementById('exportExcel').addEventListener('click', () => {
     return
   }
 
-  let csv = '姓名,品項,甜度,冰塊,數量,單價,備註\n'
+  const data = orders.map(o => ({
+    姓名: o.name,
+    品項: o.item,
+    甜度: o.sugar,
+    冰塊: o.ice,
+    數量: o.qty,
+    單價: o.price,
+    備註: o.note || ''
+  }))
 
-  orders.forEach(o => {
-    csv += `${o.name},${o.item},${o.sugar},${o.ice},${o.qty},${o.price},"${o.note}"\n`
-  })
+  const worksheet = XLSX.utils.json_to_sheet(data)
+  const workbook = XLSX.utils.book_new()
+  XLSX.utils.book_append_sheet(workbook, worksheet, '訂單')
 
-  const blob = new Blob([csv], { type: 'text/csv;charset=utf-8;' })
-  const link = document.createElement('a')
-
-  link.href = URL.createObjectURL(blob)
-  link.download = 'orders.csv'
-  link.click()
+  XLSX.writeFile(workbook, '點餐統計.xlsx')
 })
 
 /* ===== 初次載入 ===== */
