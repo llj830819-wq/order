@@ -12,25 +12,32 @@ fetch('menu.json')
     menu = data
     const item = document.getElementById('item')
     menu.forEach(m => {
-      const opt = document.createElement('option')
-      opt.value = m.name
-      opt.textContent = `${m.name} $${m.price}`
-      item.appendChild(opt)
-    })
+    const opt = document.createElement('option')
+    opt.value = m.name
+    opt.textContent = `${m.name}（M $${m.price.M} / L $${m.price.L}）`
+    item.appendChild(opt)
+})
   })
 
 document.getElementById('orderForm').addEventListener('submit', e => {
   e.preventDefault()
+  
+const selectedItem = document.getElementById('item').value
+const selectedSize = document.getElementById('size').value
 
-  const order = {
-    name: document.getElementById('name').value,
-    item: document.getElementById('item').value,
-    sugar: document.getElementById('sugar').value,
-    ice: document.getElementById('ice').value,
-    qty: Number(document.getElementById('qty').value),
-    note: document.getElementById('note').value,
-    price: menu.find(m => m.name === document.getElementById('item').value).price
-  }
+const menuItem = menu.find(m => m.name === selectedItem)
+const unitPrice = menuItem.price[selectedSize]
+
+const order = {
+  name: document.getElementById('name').value,
+  item: selectedItem,
+  size: selectedSize,
+  sugar: document.getElementById('sugar').value,
+  ice: document.getElementById('ice').value,
+  qty: Number(document.getElementById('qty').value),
+  note: document.getElementById('note').value,
+  price: unitPrice
+}
 
   if (editingIndex !== null) {
     orders[editingIndex] = order
@@ -61,7 +68,8 @@ function renderOrders() {
     const li = document.createElement('li')
     li.innerHTML = `
       <div>
-        <b>${o.name}</b>｜${o.item} (${o.sugar}/${o.ice}) × ${o.qty}
+       <b>${o.name}</b>｜${o.item} ${o.size}
+       (${o.sugar}/${o.ice}) × ${o.qty}
         ${o.note ? `<br><small>備註：${o.note}</small>` : ''}
       </div>
       <div>
@@ -82,6 +90,7 @@ function edit(i) {
   ice.value = o.ice
   qty.value = o.qty
   note.value = o.note
+  document.getElementById('size').value = o.size
 }
 
 function del(i) {
@@ -106,10 +115,23 @@ function renderSummary() {
 
 /* 匯出 xlsx */
 document.getElementById('exportExcel').onclick = () => {
-  const ws = XLSX.utils.json_to_sheet(orders)
+  const data = orders.map(o => ({
+    姓名: o.name,
+    品項: o.item,
+    容量: o.size,
+    甜度: o.sugar,
+    冰塊: o.ice,
+    數量: o.qty,
+    單價: o.price,
+    備註: o.note || ''
+  }))
+
+  const ws = XLSX.utils.json_to_sheet(data)
   const wb = XLSX.utils.book_new()
   XLSX.utils.book_append_sheet(wb, ws, '訂單')
+
   XLSX.writeFile(wb, '點餐統計.xlsx')
 }
+
 
 render()
