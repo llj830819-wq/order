@@ -22,13 +22,15 @@ document.getElementById('orderForm').addEventListener('submit', e => {
   e.preventDefault()
 
   const order = {
-    name: name.value,
-    item: item.value,
-    sugar: sugar.value,
-    ice: ice.value,
-    qty: Number(qty.value),
-    note: note.value,
-    price: menu.find(m => m.name === item.value).price
+    name: document.getElementById('name').value,
+    item: document.getElementById('item').value,
+    sugar: document.getElementById('sugar').value,
+    ice: document.getElementById('ice').value,
+    qty: Number(document.getElementById('qty').value),
+    note: document.getElementById('note').value,
+    price: menu.find(m =>
+      m.name === document.getElementById('item').value
+    ).price
   }
 
   if (editingIndex !== null) {
@@ -41,6 +43,7 @@ document.getElementById('orderForm').addEventListener('submit', e => {
   saveAndRender()
   e.target.reset()
 })
+``
 
 /* ===== 儲存 + 重畫 ===== */
 function saveAndRender() {
